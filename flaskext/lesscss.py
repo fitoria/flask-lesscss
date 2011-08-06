@@ -15,7 +15,11 @@ import os, subprocess
 def lesscss(app):
     @app.before_request
     def _render_less_css():
-        static_dir = app.root_path + app.static_path
+        #validation for new flask version.
+        try:
+            static_dir = app.root_path + app.static_path
+        except AttributeError:
+            static_dir = app.root_path + app.static_url_path
         
         less_paths = []
         for path, subdirs, filenames in os.walk(static_dir):
